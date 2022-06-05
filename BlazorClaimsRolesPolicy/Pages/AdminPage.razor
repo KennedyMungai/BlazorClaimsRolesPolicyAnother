@@ -7,11 +7,73 @@
 
 @inject IJSRuntime JSRuntime
 @inject UserManager<IdentityUser> _userManager
-@inject SignInManager<IdentityUser> _singInManager
+@inject SignInManager<IdentityUser> _signInManager
 
 <h3>AdminPage</h3>
 <hr>
 
-@code {
+<EditForm Model="newUser" OnValidSubmit="AddUserWithRole">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
+    <div class="form-group row">
+        <label for="login" class="col-sm-2 col-form-label">Add User</label>
+        <div class="col-sm-10">
+            <InputText id="login" @bind-Value="newUser.LoginName" class="form-control"></InputText>
+        </div>
+        <div class="col-sm-10">
+            <InputSelect id="role-select" @bind-Value="newUser.UserRole">
+                @foreach (var role in selectList)
+                {
+                    <option value="@role.Value" selected="@role.Selected">@role.Text</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    User newUser = new User();
+    List<Role> rolesList = new List<Role>();
+    List<SelectListItem> selectList = new List<SelectListItem>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        rolesList = new List<Role>()
+        {
+            new Role(){RoleName = "Admin", Id = "1"},
+            new Role(){RoleName = "HR", Id = "2"},
+            new Role(){RoleName = "Manager", Id = "3"},
+            new Role(){RoleName = "User", Id = "4"}
+        };
+
+        foreach (Role role in rolesList)
+        {
+            if (rolesList.Count < 1)
+            {
+                selectList.Add(new SelectListItem()
+                    {
+                        Text = role.RoleName,
+                        Value = role.Id,
+                        Selected = true
+                    }
+                );
+            }
+            else
+            {
+                selectList.Add(new SelectListItem()
+                    {
+                        Text = role.RoleName,
+                        Value = role.Id,
+                        Selected = false
+                    }
+                );
+            }
+        }
+    }
+
+    public async Task AddUserWithRole(EditContext context)
+    {
+
+    }
 }
