@@ -1,4 +1,14 @@
 ﻿@page "/Admin"
+
+@using BlazorClaimsRolesPolicy.Data
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using System.Security.Claims
+
+@inject IJSRuntime JSRuntime
+@inject UserManager<IdentityUser> _userManager
+@inject SignInManager<IdentityUser> _singInManager
+
 <h3>AdminPage</h3>
 <hr>
 
